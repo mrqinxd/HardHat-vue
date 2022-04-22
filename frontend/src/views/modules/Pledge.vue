@@ -2,8 +2,8 @@
   <div id="Blindbox">
     <!-- 当前账户余额 -->
     <div class="blind_Box">
-      <p>代币地址:{{tokenAddr}}</p>
-      <p>质押合约地址:{{PledgeAddr}}</p>
+      <p>代币地址:{{abiConObj.CztTokenAddr}}</p>
+      <p>质押合约地址:{{abiConObj.PledgeEarnAddr}}</p>
     </div>
     <div class="blind_Box">
       <p>用户余额:
@@ -50,8 +50,6 @@ export default {
       abiConObj:{},
       isdisA:false,
       isdisP:true,
-      tokenAddr:"",
-      PledgeAddr:"",
       UserTokenBan: "", //个人代币余额
       PledTokenBan: "", //质押代币余额
       PledgeEarnNum: "", //质押金额
@@ -63,8 +61,6 @@ export default {
     // 初始化
     async init() {
       this.abiConObj = await new abiContract();
-      this.tokenAddr = this.abiConObj.CztTokenAddr;
-      this.PledgeAddr = this.abiConObj.PledgeEarnAddr;
       // 用户代币余额
       await this.abiConObj.CztTokenContract.balanceOf(this.abiConObj.UserAddr).then((res) => {
         this.UserTokenBan = ethers.utils.formatEther(res);

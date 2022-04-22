@@ -2,8 +2,22 @@
   <div id="Blindbox">
     <!-- 当前账户拥有盲盒个数 -->
     <div class="blind_Box">
-      <span>盲盒单价:</span>
-      <el-button @click="eventFilter">合约事件过滤器</el-button>
+      <span>盲盒地址:{{ abiConObj.TempAddr }}</span>
+      <el-button @click="eventFilter">合约事件过滤器</el-button>      
+    </div>
+    <div class="blind_Box"> 
+      <el-table
+        :data="FilterData"
+        style="width: 100%">
+        <el-table-column
+          prop="tid"
+          label="tokenID">
+        </el-table-column>
+        <el-table-column
+          prop="addr"
+          label="地址">
+        </el-table-column>          
+      </el-table>
     </div>
   </div>
 </template>
@@ -20,17 +34,7 @@ export default {
   data() {
     return {
       abiConObj:{},
-      state: "", //盲盒状态
-      maxMintNum: "", //单次最多个数
-      accountNum: "", //账户最多拥有个数
-      blindNum: "", //盲盒总量
-      remainBlindNum: "", //剩余盲盒数量
-      money: "", //价格
-      mintNum: "", //数量
-      ipfsurl: "", //ipfs地址
-      changemoney: "", //更换价格
-      changemaxMintNum: "", //更换单次最多个数
-      changeaccountNum: "", //更换账户最多拥有个数
+      FilterData:[],
     };
   },
   // 方法
@@ -38,14 +42,13 @@ export default {
     async init() {
       this.abiConObj = await new abiContract();
     },
-    async eventFilter() {      
+    async eventFilter() {
       //事件筛选器
       const transferEvents = await this.abiConObj.TempContract.queryFilter("Transfer", 0, "latest");
       let tokens = [];
       let owners = [];
       for (let i = 0; i < transferEvents.length; i++) {
-          console.log(event);
-          const event = transferEvents[i];          
+          const event = transferEvents[i];
           const tokenId = event.args.tokenId.toNumber();
           if (!tokens.includes(tokenId)) {
               tokens.push(tokenId);
@@ -57,11 +60,13 @@ export default {
       tokens.sort((a, b) => a - b);
 
       // Write the results to a file
-      let res = "";
       for (let i = 0; i < tokens.length; i++) {
-          res += tokens[i] + " " + owners[tokens[i]] + "\n";
+        let temp = {tid:0,addr:""};
+        temp.tid = tokens[i];
+        temp.addr = owners[tokens[i]];
+        this.FilterData.push(temp);
       }
-      console.log(res);      
+      console.log(this.FilterData);
     }
   },
   // 创建后
@@ -86,7 +91,7 @@ export default {
     }
     .el-input {
       width: 6rem;
-    }
+    }    
   }
   .blind_Box_span {
     span {

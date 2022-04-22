@@ -47,6 +47,7 @@ export default {
   // 数据
   data() {
     return {
+      abiConObj:{},
       isdisA:false,
       isdisP:true,
       tokenAddr:"",
@@ -61,21 +62,20 @@ export default {
   methods: {
     // 初始化
     async init() {
-      let contract = await new abiContract();
-      this.tokenAddr = contract.CztTokenAddr;
-      this.PledgeAddr = contract.PledgeEarnAddr;
+      this.abiConObj = await new abiContract();
+      this.tokenAddr = this.abiConObj.CztTokenAddr;
+      this.PledgeAddr = this.abiConObj.PledgeEarnAddr;
       // 用户代币余额
-      await contract.CztTokenContract.balanceOf(contract.UserAddr).then((res) => {
+      await this.abiConObj.CztTokenContract.balanceOf(this.abiConObj.UserAddr).then((res) => {
         this.UserTokenBan = ethers.utils.formatEther(res);
       });
       // 质押合约代币余额
-      await contract.CztTokenContract.balanceOf(contract.PledgeEarnAddr).then((res) => {
+      await this.abiConObj.CztTokenContract.balanceOf(this.abiConObj.PledgeEarnAddr).then((res) => {
         this.PledTokenBan = ethers.utils.formatEther(res);
       });
     },
     // 批准
-    async approve() {
-      let contract = await new abiContract();
+    async approve() {      
       // 改变状态
       if(this.PledgeEarnNum <= 0){
         return;
@@ -84,7 +84,7 @@ export default {
         this.PledgeEarnNum.toString(),
         "ether"
       );
-      let transaction = await contract.CztTokenContract.approve(contract.PledgeEarnAddr,price);
+      let transaction = await this.abiConObj.CztTokenContract.approve(this.abiConObj.PledgeEarnAddr,price);
       await transaction.wait().then((res) => {
         console.log(res);
         this.isdisA = true;
@@ -93,14 +93,13 @@ export default {
       });
     },
     // 质押
-    async pledge() {
-      let contract = await new abiContract();
+    async pledge() {      
       const price = ethers.utils.parseUnits(
         this.PledgeEarnNum.toString(),
         "ether"
       );
       // 质押
-      let transaction = await contract.PledgeEarnContract.transTestMtgToken(contract.UserAddr,price);
+      let transaction = await this.abiConObj.PledgeEarnContract.transTestMtgToken(this.abiConObj.UserAddr,price);
       await transaction.wait().then((res) => {
         console.log(res);
         this.$message("质押 成功");
@@ -110,8 +109,7 @@ export default {
       });
     },
     // 赎回
-    async redemption() {
-      let contract = await new abiContract();
+    async redemption() {      
       //  转换价格单位
       const price = ethers.utils.parseUnits(
         this.redemptionNum.toString(),
@@ -119,7 +117,7 @@ export default {
       );
       console.log(price);
       // 连接NFT合约，进行铸币
-      let transaction = await contract.PledgeEarnContract.transFormTestMtg(contract.UserAddr,price);
+      let transaction = await this.abiConObj.PledgeEarnContract.transFormTestMtg(this.abiConObj.UserAddr,price);
       await transaction.wait().then((res) => {
         console.log(res);
         this.$message("赎回 成功");

@@ -34,6 +34,11 @@ const routes = [
         name: "/index/Upload",
         component: () => import("../views/modules/Upload.vue")
       },      
+      {
+        path: "/index/Temp",
+        name: "/index/Temp",
+        component: () => import("../views/modules/Temp.vue")
+      },   
     ]
   }
 ]

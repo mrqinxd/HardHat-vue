@@ -61,7 +61,8 @@ export default {
         { index: "/index/Blindbox", i: "el-icon-goods", text: "盲盒" },
         { index: "/index/Pledge", i: "el-icon-goods", text: "质押" },
         { index: "/index/Upload",i: "el-icon-warning-outline",text: "ipfs上传" },
-        { index: "/index/Temp",i: "el-icon-warning-outline",text: "测试" }
+        { index: "/index/Temp",i: "el-icon-warning-outline",text: "测试" },
+        { index: "/index/Merkle",i: "el-icon-warning-outline",text: "白名单" }
       ],
     };
   },

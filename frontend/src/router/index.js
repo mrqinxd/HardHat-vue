@@ -39,6 +39,11 @@ const routes = [
         name: "/index/Temp",
         component: () => import("../views/modules/Temp.vue")
       },   
+      {
+        path: "/index/Merkle",
+        name: "/index/Merkle",
+        component: () => import("../views/modules/Merkle.vue")
+      },
     ]
   }
 ]

@@ -19,6 +19,9 @@
         </el-table-column>          
       </el-table>
     </div>
+    <div class="blind_Box">      
+      <el-button @click="ContentWS">链接ws</el-button>          
+    </div>
   </div>
 </template>
 
@@ -44,7 +47,7 @@ export default {
     },
     async eventFilter() {
       //事件筛选器
-      const transferEvents = await this.abiConObj.TempContract.queryFilter("Transfer", 0, "latest");
+      const transferEvents = await this.abiConObj.TempContract.queryFilter("Transfer", process.env.DEPLOYMENT_BLOCK, "latest");
       let tokens = [];
       let owners = [];
       for (let i = 0; i < transferEvents.length; i++) {
@@ -55,6 +58,7 @@ export default {
           }
           owners[tokenId] = event.args.to;
       }
+      console.log(transferEvents);
 
       // Order tokens by id
       tokens.sort((a, b) => a - b);
@@ -67,6 +71,33 @@ export default {
         this.FilterData.push(temp);
       }
       console.log(this.FilterData);
+    },
+    ContentWS(){
+      var ws = new WebSocket('ws://172.16.2.6:8546');
+      console.log(ws.readyState);
+
+      //监听是否连接成功
+      ws.onopen = function () {
+          console.log('ws连接状态：' + ws.readyState);
+          //连接成功则发送一个数据
+          ws.send('test1');
+      }
+      // 接听服务器发回的信息并处理展示
+      ws.onmessage = function (data) {
+          console.log('接收到来自服务器的消息：');
+          console.log(data);
+          //完成通信后关闭WebSocket连接
+          ws.close();
+      }
+      // 监听连接关闭事件
+      ws.onclose = function () {
+          // 监听整个过程中websocket的状态
+          console.log('ws连接状态：' + ws.readyState);
+      }
+      // 监听并处理error事件
+      ws.onerror = function (error) {
+          console.log(error);
+      }
     }
   },
   // 创建后

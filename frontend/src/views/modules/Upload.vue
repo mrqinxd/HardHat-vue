@@ -50,7 +50,7 @@ export default {
     async upIpfs(fileList) {
       const client = new Web3Storage({
         token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDE5N2VEYTQ5QjQyRmVjRjI2QzBhNWM4OThmNUYzNzVGNDU1Y2U2MWEiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NDU1ODEwMDQ4NjAsIm5hbWUiOiJkZXYyMjAyIn0.s9DZmDbB1VasuMmI50RzfFavxwIachm0XuELGz5RZY4",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDk0MzJGNmUxZTdGNGE3MDRGRWE2QjFFQzE2RjVkMjc0YjRlODU3MDMiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTA3OTQxMTE0NTksIm5hbWUiOiJteUFQSUtleSJ9.MEHKYAwvB2PTuSUM-GFt0Fhg1KvefyVa6DyxM1QqZkQ",
       });
       // Pack files into a CAR and send to web3.storage
       const rootCid = await client.put(this.fileList, {

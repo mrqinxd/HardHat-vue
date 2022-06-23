@@ -27,6 +27,7 @@
 </template>
 
 <script>
+const fs = require('fs');
 //ipfs上传
 import { Web3Storage } from "web3.storage/dist/bundle.esm.min.js";
 export default {
@@ -37,6 +38,20 @@ export default {
   data() {
     return {
       infs: "", //上传成功返回的hash
+      rootCid:"",
+      NFTnum:0,
+      //json文件数据demo
+      jsonDataDemo:{
+        name:"",
+        description:"",
+        image:"",
+        attributes:[
+          {
+            trait_type:"",
+            value:""
+          }
+        ]
+      },
     };
   },
   // 方法
@@ -57,10 +72,19 @@ export default {
         name: "files",
         maxRetries: 3,
       });
+      this.rootCid = rootCid;
       let url = `https://ipfs.io/ipfs/${rootCid}`;
       console.log(url);
       this.infs = url;
     },
+    //创建本写入文件
+    createFile(data,fileDir){      
+      console.log(fs);
+      fs.writeFileSync();
+      fs.writeFile(fileDir,data,err=>{
+        console.log(err);
+      })
+    }
   },
   // 创建后
   created() {},
@@ -82,6 +106,25 @@ export default {
   .el-button {
     width: 10rem;
     margin: 2rem 0 0;
+  }
+}
+.blind_Box {
+  display: left;
+  line-height: 3rem;
+  margin: 1rem 0;
+  :nth-child(n) {
+    margin: 0 0.5rem;
+  }
+  p{
+    width: 40rem;
+  }
+  .el-input {
+    width: 20rem;
+  }
+}
+.blind_Box_span {
+  span {
+    width: 12rem;
   }
 }
 .ipfsNum {

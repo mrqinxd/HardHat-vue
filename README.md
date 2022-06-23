@@ -10,6 +10,7 @@ HardHat+vue控制一套流程框架。
 `环境 Node 建议使用（CNPM）`
 
 前端UI相关在 frontend 目录下
+Node下 用于NFT自动生成MetaData Json
 
 ## HardHat(常用命令)
 启动本地节点

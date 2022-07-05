@@ -73,6 +73,7 @@ export default {
   // 数据
   data() {
     return {
+      tokenContract:{},
       state: "", //盲盒状态
       maxMintNum: "", //单次最多个数
       accountNum: "", //账户最多拥有个数
@@ -88,11 +89,17 @@ export default {
   },
   // 方法
   methods: {
+    //初始化
+    async init(){
+      let contract = await new abiContract();
+      this.tokenContract = contract.MTWContract;
+      this.blindboxnum();
+    },
     // 获取盲盒详情
     async blindboxnum() {
-      let contract = await new abiContract();
+      console.log(this.tokenContract);
       // 获取当前是否开启盲盒的状态
-      await contract.tokenContract._revealed().then((res) => {
+      await this.tokenContract._revealed().then((res) => {
         console.log(res);
         if (res == false) {
           this.state = "未开启";
@@ -103,31 +110,31 @@ export default {
         }
       });
       // 单次购买个数
-      await contract.tokenContract.maxMint().then((res) => {
+      await this.tokenContract.maxMint().then((res) => {
         console.log(res);
         this.maxMintNum = res.toNumber();
       });
       // 单账户最大拥有
-      await contract.tokenContract.maxBalance().then((res) => {
+      await this.tokenContract.maxBalance().then((res) => {
         console.log(res);
         this.accountNum = res.toNumber();
       });
       // 盲盒总量
-      await contract.tokenContract.MAX_SUPPLY().then((res) => {
+      await this.tokenContract.MAX_SUPPLY().then((res) => {
         console.log(res);
         this.blindNum = res.toNumber();
       });
       // 剩余盲盒数
-      await contract.tokenContract.remainNum().then((res) => {
+      await this.tokenContract.remainNum().then((res) => {
         console.log(res);
         this.remainBlindNum = res.toNumber();
       });
       // 盲盒单价
-      await contract.tokenContract.mintPrice().then((res) => {        
+      await this.tokenContract.mintPrice().then((res) => {        
         this.money = ethers.utils.formatUnits(res.toString(), "ether");
       });
       // 盲盒ipfs地址
-      await contract.tokenContract.notRevealedUri().then(async (res) => {
+      await this.tokenContract.notRevealedUri().then(async (res) => {
         console.log(res);
         let url = `https://ipfs.io/ipfs/${res.substring(
           res.lastIndexOf("://") + 3
@@ -143,15 +150,15 @@ export default {
         // console.log(this.ipfsurl);
       });
       // tokenURI
-         await contract.tokenContract.tokenURI(1).then((res) => {
+      await this.tokenContract.tokenURI(1).then((res) => {
         console.log(res);
       });
     },
     // 改变盲盒状态
     async onState() {
-      let contract = await new abiContract();
+      // let contract = await new abiContract();
       // 改变状态
-      let transaction = await contract.nftContract.flipReveal();
+      let transaction = await this.tokenContract.changeRevel();
       await transaction.wait().then((res) => {
         console.log(res);
         this.blindboxnum();
@@ -160,7 +167,7 @@ export default {
     },
     //mint
     async onMint() {
-      let contract = await new abiContract();
+      // let contract = await new abiContract();
       //  转换价格单位
       const price = ethers.utils.parseUnits(
         (this.money * this.mintNum).toString(),
@@ -168,7 +175,7 @@ export default {
       );
       console.log(price);
       // 连接NFT合约，进行铸币
-      let transaction = await contract.nftContract.mintNicMeta(this.mintNum, {
+      let transaction = await this.tokenContract.mintMTW(this.mintNum, {
         value: price,
       });
       console.log(transaction);
@@ -180,12 +187,12 @@ export default {
     // 更换价格
     async onchangemoney() {
       if (this.changemoney > 0) {
-        let contract = await new abiContract();
+        // let contract = await new abiContract();
         const price1 = ethers.utils.parseUnits(
           this.changemoney.toString(),
           "ether"
         );
-        let transaction = await contract.nftContract.setMintPrice(price1);
+        let transaction = await this.tokenContract.setPrice(price1);
         await transaction.wait().then((res) => {
           console.log(res);
           this.blindboxnum();
@@ -235,7 +242,7 @@ export default {
   },
   // 创建后
   created() {
-    this.blindboxnum();
+    this.init();    
   },
   // 挂载后
   mounted() {},

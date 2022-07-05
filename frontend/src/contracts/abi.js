@@ -5,6 +5,7 @@ import address from "./contract-address.json"; // address
 //不同合约 不同json
 import CztToken from "./CztToken.json";
 import PledgeEarn from "./PledgeEarn.json";
+import MTW from "./MTW.json";
 
 
 export async function abiContract() {
@@ -20,8 +21,10 @@ export async function abiContract() {
     UserAddr:connection.selectedAddress,
     CztTokenAddr:address.CztToken,
     PledgeEarnAddr:address.PledgeEarn,
+    MTWTokenAddr:address.MTWToken,
     CztTokenContract: new ethers.Contract(address.CztToken, CztToken.abi, signer),
     PledgeEarnContract: new ethers.Contract(address.PledgeEarn, PledgeEarn.abi, signer),
+    MTWContract: new ethers.Contract(address.MTWToken, MTW.abi, signer),
   }
 }
 

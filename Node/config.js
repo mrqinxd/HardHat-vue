@@ -1,9 +1,9 @@
 // NFT MetaData 配置
 const namePrefix = "MTW  aaaa";
 const description = "MTW Token-G20";
-const baseUri = "ipfs://bafybeiawifosciidjgwkoec3hpaxmftujuepqcgyloijmqwdjhs26f6xpu";
+const baseUri = "ipfs://bafybeiek4v2qozcqkh72bu7nyc667asjdkxheupvtat6v32litfuz3gxxm";
 const compiler = "NFT Art Engine";
-const MaxNFTLength = 15;
+const MaxNFTLength = 2;
 
 //盲盒配置参数
 const unpack = {

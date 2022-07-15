@@ -13,7 +13,7 @@ const unpack = {
     jsonName:"unpack",
 };
 
-module.exports = {    
+module.exports = {
     baseUri,
     description,
     namePrefix,    

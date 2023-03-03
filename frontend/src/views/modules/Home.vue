@@ -40,11 +40,11 @@ export default {
     //清除定时器
     clearTime() {
       clearInterval(this.timer);
-    },
+    },    
   },
   // 创建后
   created() {
-    this.setTime();
+    this.setTime();    
   },
   // 挂载后
   mounted() {},

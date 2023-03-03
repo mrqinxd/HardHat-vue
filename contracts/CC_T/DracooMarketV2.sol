@@ -323,7 +323,7 @@ contract DracooMarket is Context, Ownable, IERC721Receiver, ReentrancyGuard {
 
         // check seller signature
         bytes32 sellerHash = keccak256(abi.encodePacked(input.seller, input.nftAddress, input.tokenId, input.erc20Address, input.price, input.kind, input.salt));
-        require(isSignatureValid(sellerSig, ECDSA.toEthSignedMessageHash(sellerHash), currentOwner), "seller signature error");
+        require(isSignatureValid(sellerSig, ECDSA.toEthSignedMessageHash(sellerHash),  ), "seller signature error");
 
         _orderCanceledOrFinished[input.transactionId] = true;
         

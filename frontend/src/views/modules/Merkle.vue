@@ -52,12 +52,12 @@ export default {
   // 方法
   methods: {
     creaRoot(){
-      let leafNodes = this.whitelistAddresses.map(address => keccak256(address));      
+      let leafNodes = this.whitelistAddresses.map(address => keccak256(address));
       this.tree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
       console.log(this.tree);
     },
     //merklePoof
-    merkleTree(){      
+    merkleTree(){
       let tree = this.tree;      
       console.log('Tree: ', tree.toString());
       console.log('root: ',tree.getRoot().toString('hex'));

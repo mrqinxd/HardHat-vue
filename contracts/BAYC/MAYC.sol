@@ -136,7 +136,7 @@ contract MutantApeYachtClub is ERC721Enumerable, Ownable, ReentrancyGuard {
         onlyOwner
     {
         require(!publicSaleActive, "Public sale has already begun");
-        publicSaleDuration = saleDuration;
+        publicSaleDuration = saleDuration;  
         publicSaleMutantStartingPrice = saleStartPrice;
         publicSaleStartTime = block.timestamp;
         publicSaleActive = true;
